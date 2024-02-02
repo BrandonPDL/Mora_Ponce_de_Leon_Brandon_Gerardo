@@ -9,8 +9,12 @@
                 <th colspan="4">Examenes</th>
             </tr>
             <tr>
-                <td colspan="2"><input placeholder="Buscar..." /></td>
-                <td><button class=" btn-primary">Buscar</button></td>
+                <td colspan="3">
+                    <form asp-controller="Examen" asp-action="Buscar" method="post">
+                        <input name="id" placeholder="Buscar..." required />
+                        <button class="btn-primary">Buscar</button>
+                    </form>
+                </td>
                 <td>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#agregarExamenModal">
                         Agregar Examen
@@ -63,7 +67,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="agregarExamenForm">
+                    <form asp-controller="Examen" asp-action="Agregar" method="post">
                         <div class="form-group">
                             <label for="idExamen">ID</label>
                             <input type="text" class="form-control" id="idExamen" name="idExamen" required>
