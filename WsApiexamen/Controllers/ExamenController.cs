@@ -35,7 +35,7 @@ namespace WsApiexamen.Controllers
         public async Task<ActionResult<ExamenDto>> Create(CreateExamenCommand command)
         {
             var examen = await _mediator.Send(command);
-            return CreatedAtAction(nameof(GetById),new { idExamen = examen.idExamen },examen);
+            return CreatedAtAction(nameof(GetById),new { id = examen.idExamen },examen);
         }
 
         [HttpPut("{id}")]
