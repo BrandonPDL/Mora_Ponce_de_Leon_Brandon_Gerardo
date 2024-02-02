@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WsApiexamen", "WsApiexamen\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "apiexamen", "apiexamen\apiexamen.csproj", "{4D3FCBC8-96D8-43D0-AD50-B853A879D599}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrontExamen", "FrontExamen\FrontExamen.csproj", "{D7A1B917-A6E3-4E13-8301-1B3E8164212C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{4D3FCBC8-96D8-43D0-AD50-B853A879D599}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D3FCBC8-96D8-43D0-AD50-B853A879D599}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D3FCBC8-96D8-43D0-AD50-B853A879D599}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7A1B917-A6E3-4E13-8301-1B3E8164212C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7A1B917-A6E3-4E13-8301-1B3E8164212C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7A1B917-A6E3-4E13-8301-1B3E8164212C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7A1B917-A6E3-4E13-8301-1B3E8164212C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
