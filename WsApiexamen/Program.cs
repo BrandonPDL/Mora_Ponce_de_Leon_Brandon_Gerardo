@@ -2,7 +2,7 @@ using Autofac.Core;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using WsApiexamen.Infrastructure;
+using WsApiexamen.Application.BD;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddMediatR(typeof(Program).Assembly);
-
+builder.Services.AddScoped<IExamenRepository, ExamenRepository>();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("CadenaDeConexion")));
 

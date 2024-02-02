@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WsApiexamen.Domain;
 
-namespace WsApiexamen.Infrastructure
+namespace WsApiexamen.Application.BD
 {
     public class ApplicationDbContext : DbContext
     {
@@ -11,6 +11,7 @@ namespace WsApiexamen.Infrastructure
             : base(options)
         {
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<tblExamen>()

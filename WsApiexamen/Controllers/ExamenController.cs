@@ -32,35 +32,34 @@ namespace WsApiexamen.Controllers
             return examen;
         }
         [HttpPost]
-        public async Task<ActionResult<ExamenDto>> Create(CreateExamenCommand command)
+        public async Task<ActionResult<ExamenCreateDto>> Create(CreateExamenCommand command)
         {
-            var examen = await _mediator.Send(command);
-            return CreatedAtAction(nameof(GetById),new { id = examen.idExamen },examen);
+            return await _mediator.Send(command);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> update(int id, UpdateExamenCommand command)
+        public async Task<ActionResult<bool>> update(int id, UpdateExamenCommand command)
         {
             if(id!= command.idExamen)
             {
-                return BadRequest();
+                return BadRequest(false);
             }
             var result = await _mediator.Send(command);
             if(result == false)
             {
-                return NotFound();
+                return NotFound(false);
             }
-            return NoContent();
+            return Ok(result);
         }
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<ActionResult<bool>> Delete(int id)
         {
             var result = await _mediator.Send(new DeleteExamenCommand(id));
             if (!result)
             {
-                return NotFound();
+                return NotFound(false);
             }
-            return NoContent();
+            return result;
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using WsApiexamen.Application.BD;
 using WsApiexamen.Application.DTOs;
-using WsApiexamen.Infrastructure;
 using WsApiexamen.Infrastructure.Commands;
 using WsApiexamen.Infrastructure.Queries;
 
@@ -9,15 +9,16 @@ namespace WsApiexamen.Application.Handlers
 {
     public class GetAllExamenesHandler : IRequestHandler<GetAllExamenesQuery, IEnumerable<ExamenDto>>
     {
-        private readonly ApplicationDbContext _dbContext;
-        public GetAllExamenesHandler(ApplicationDbContext dbContext)
+        private readonly IExamenRepository _examenRepository;
+
+        public GetAllExamenesHandler(IExamenRepository examenRepository)
         {
-            _dbContext = dbContext;
+            _examenRepository = examenRepository;
         }
 
         public async Task<IEnumerable<ExamenDto>> Handle(GetAllExamenesQuery request, CancellationToken cancellationToken)
         {
-            var examenes = await _dbContext.tblExamen.ToListAsync(cancellationToken);
+            var examenes = await _examenRepository.GetAllExamenesAsync();
 
             return examenes.Select(examen => new ExamenDto
             {

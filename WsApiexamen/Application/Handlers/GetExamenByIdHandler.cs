@@ -1,22 +1,23 @@
 ﻿using MediatR;
+using WsApiexamen.Application.BD;
 using WsApiexamen.Application.DTOs;
-using WsApiexamen.Infrastructure;
 using WsApiexamen.Infrastructure.Queries;
 
 namespace WsApiexamen.Application.Handlers
 {
     public class GetExamenByIdHandler : IRequestHandler<GetExamenByIdQuery, ExamenDto>
     {
-        private readonly ApplicationDbContext _dbContext;
-        public GetExamenByIdHandler(ApplicationDbContext dbContext)
+        private readonly IExamenRepository _examenRepository;
+
+        public GetExamenByIdHandler(IExamenRepository examenRepository)
         {
-            _dbContext = dbContext;
+            _examenRepository = examenRepository;
         }
 
         public async Task<ExamenDto> Handle(GetExamenByIdQuery request, CancellationToken cancellationToken)
         {
-            var examen = await _dbContext.tblExamen.FindAsync(
-             new object[] { request.idExamen }, cancellationToken);
+            var examen = await _examenRepository.GetExamenByIdAsync(request.idExamen);
+
             if (examen == null)
             {
                 return null;

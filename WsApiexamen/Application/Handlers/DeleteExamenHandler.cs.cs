@@ -1,29 +1,47 @@
 ﻿using MediatR;
-using WsApiexamen.Infrastructure;
+using WsApiexamen.Application.BD;
 using WsApiexamen.Infrastructure.Commands;
 
 namespace WsApiexamen.Application.Handlers
 {
-    public class DeleteExamenHandler :IRequestHandler<DeleteExamenCommand,bool>
+    public class DeleteExamenHandler : IRequestHandler<DeleteExamenCommand, bool>
     {
-        private readonly ApplicationDbContext _dbContext;
-        public DeleteExamenHandler(ApplicationDbContext dbContext)
+        private readonly IExamenRepository _examenRepository;
+
+        public DeleteExamenHandler(IExamenRepository examenRepository)
         {
-            _dbContext = dbContext;
+            _examenRepository = examenRepository;
         }
 
         public async Task<bool> Handle(DeleteExamenCommand request, CancellationToken cancellationToken)
         {
-            var examen = await _dbContext.tblExamen.FindAsync(
-                    new object[] { request.idExamen }, cancellationToken);
-            if (examen == null)
+            using (var transaction = await _examenRepository.BeginTransactionAsync(cancellationToken))
             {
-                return false;
-            }
+                try
+                {
+                    var result = await _examenRepository.DeleteExamenAsync(request.idExamen);
 
-            _dbContext.tblExamen.Remove(examen);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-            return true;
+                    if (result)
+                    {
+                        // Si se eliminó correctamente, confirmar la transacción
+                        await transaction.CommitAsync(cancellationToken);
+                    }
+                    else
+                    {
+                        // Si no se pudo eliminar (porque no se encontró), revertir la transacción
+                        await transaction.RollbackAsync(cancellationToken);
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    // Si hay un error, deshacer la transacción y manejar la excepción
+                    await transaction.RollbackAsync(cancellationToken);
+                    Console.WriteLine($"Error: {ex.Message}");
+                    throw;
+                }
+            }
         }
     }
 }
