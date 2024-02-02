@@ -10,7 +10,12 @@
             </tr>
             <tr>
                 <td colspan="2"><input placeholder="Buscar..." /></td>
-                <td><button class="">Buscar</button></td>
+                <td><button class=" btn-primary">Buscar</button></td>
+                <td>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#agregarExamenModal">
+                        Agregar Examen
+                    </button>
+                </td>
             </tr>
             <tr>
                 <th>Id</th>
@@ -46,4 +51,36 @@
             }
         </tbody>
     </table>
+
+
+    <div class="modal fade" id="agregarExamenModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">Agregar Examen</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="agregarExamenForm">
+                        <div class="form-group">
+                            <label for="idExamen">ID</label>
+                            <input type="text" class="form-control" id="idExamen" name="idExamen" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="descripcion">Descripción</label>
+                            <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

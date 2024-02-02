@@ -1,5 +1,10 @@
 ﻿using System;
+<<<<<<< Updated upstream
 using apiexamen; // Asegúrate de incluir este using
+=======
+using System.Threading.Tasks;
+using ClassLibrary1; // Asegúrate de incluir este using
+>>>>>>> Stashed changes
 
 namespace MiAplicacionDeConsola
 {
@@ -17,6 +22,7 @@ namespace MiAplicacionDeConsola
 
             try
             {
+<<<<<<< Updated upstream
                 clsExamen dll = new clsExamen(true);
                 string resultado = await dll.GetExamenes();
                 Console.WriteLine("Respuesta de la API: ");
@@ -37,6 +43,13 @@ namespace MiAplicacionDeConsola
                 Console.WriteLine("Respuesta de la API: ");
                 Console.WriteLine(resultado);
 
+=======
+                // Asumiendo que PostToApiAsync ahora devuelve un objeto RespuestaApi
+                RespuestaApi respuesta = await ApiHelper.PostToApiAsync(url, examen);
+                Console.WriteLine("Respuesta de la API: ");
+                Console.WriteLine($"Id: {respuesta.Id}, Mensaje: {respuesta.Mensaje}");
+                // Imprimir otras propiedades según sea necesario
+>>>>>>> Stashed changes
             }
             catch (Exception ex)
             {

@@ -30,10 +30,13 @@ namespace ClassLibrary1
             }
         }
 
-        public static async Task<string> PostToApiAsync(string url, Examen examen)
+        public static async Task<string> PostToApiAsync( Examen examen)
         {
+            string url = "https://localhost:7170/api/Examen";
             var client = new HttpClient();
-            var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7170/api/Examen");
+            var request = new HttpRequestMessage(HttpMethod.Post, url); // Usando la URL proporcionada
+
+            // Creando el JSON a partir del objeto Examen
             var jsonContent = $"{{\r\n  \"idExamen\": {examen.IdExamen},\r\n  \"nombre\": \"{examen.Nombre}\",\r\n  \"descripcion\": \"{examen.Descripcion}\"\r\n}}";
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
@@ -41,12 +44,14 @@ namespace ClassLibrary1
 
             var response = await client.SendAsync(request);
 
-            // Asegúrate de que la solicitud fue exitosa
+            // Asegurarse de que la solicitud fue exitosa
             response.EnsureSuccessStatusCode();
 
-            // Leer y retornar el contenido de la respuesta como un string
+            // Leer y retornar el contenido de la respuesta.
+            // Esto será un JSON si el servidor responde con JSON.
             var responseString = await response.Content.ReadAsStringAsync();
             return responseString;
         }
+
     }
 }
