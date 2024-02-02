@@ -28,7 +28,7 @@ namespace WsApiexamen.Application.Handlers
 
                     await _examenRepository.AddExamenAsync(examen);
 
-                    // Si llegas hasta aquí sin excepciones, confirmas la transacción
+     
                     await transaction.CommitAsync(cancellationToken);
 
                     return new ExamenCreateDto
@@ -39,11 +39,9 @@ namespace WsApiexamen.Application.Handlers
                 }
                 catch (Exception ex)
                 {
-                    // Si hay un error, deshaces la transacción
                     await transaction.RollbackAsync(cancellationToken);
                     Console.WriteLine($"Error: {ex.Message}");
 
-                    // Puedes elegir lanzar la excepción nuevamente o manejarla de alguna manera
                     return new ExamenCreateDto
                     {
                         Respuesta = false,

@@ -23,12 +23,10 @@ namespace WsApiexamen.Application.Handlers
 
                     if (result)
                     {
-                        // Si se eliminó correctamente, confirmar la transacción
                         await transaction.CommitAsync(cancellationToken);
                     }
                     else
                     {
-                        // Si no se pudo eliminar (porque no se encontró), revertir la transacción
                         await transaction.RollbackAsync(cancellationToken);
                     }
 
@@ -36,7 +34,6 @@ namespace WsApiexamen.Application.Handlers
                 }
                 catch (Exception ex)
                 {
-                    // Si hay un error, deshacer la transacción y manejar la excepción
                     await transaction.RollbackAsync(cancellationToken);
                     Console.WriteLine($"Error: {ex.Message}");
                     throw;

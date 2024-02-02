@@ -3,7 +3,6 @@ using WsApiexamen.Domain;
 
 namespace WsApiexamen.Application.BD
 {
-    // ExamenRepository.cs
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Storage;
@@ -50,7 +49,6 @@ namespace WsApiexamen.Application.BD
 
         public async Task<bool> UpdateExamenAsync(tblExamen examen)
         {
-            // Puedes validar aquí si el examen existe antes de intentar actualizarlo
             _dbContext.Entry(examen).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
             return true;
