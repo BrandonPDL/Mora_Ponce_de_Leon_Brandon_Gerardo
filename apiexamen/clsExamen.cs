@@ -14,7 +14,7 @@ namespace apiexamen
         {
             if (useWebService)
             {
-                string baseUrl = "https://nose";
+                string baseUrl = connectionString;
                 _databaseConnector = new DatabaseConnectorWebService(baseUrl);
             }
             else
