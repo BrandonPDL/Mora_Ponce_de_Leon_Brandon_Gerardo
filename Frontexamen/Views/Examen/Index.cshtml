@@ -1,0 +1,38 @@
+﻿@model ExamenModel
+@{
+    ViewData["Title"] = "Gestión de Exámenes";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="alert alert-success">@ViewBag.Message</div>
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+}
+
+<!-- Formulario para agregar examen -->
+
+<form asp-action="Agregar">
+    <!-- ...otros campos del formulario... -->
+    <input type="hidden" asp-for="UsarWebService" value="@Model.UsarWebService" />
+    <button type="submit">Guardar</button>
+</form>
+
+
+<form asp-action="Agregar">
+    <input asp-for="Id" type="number" />
+    <input asp-for="Nombre" />
+    <input asp-for="Descripcion" />
+    <select asp-for="useWebService">
+        <option value="true">Web Service</option>
+        <option value="false">Procedimientos almacenados</option>
+    </select>
+    <button type="submit">Agregar Examen</button>
+</form>
+
+<!-- Coloca aquí tu DataGrid o tabla HTML -->
