@@ -15,24 +15,23 @@ namespace apiexamen
 
         public void EjecutarProcedimientoAlmacenado(string nombreProcedimiento, params object[] parametros)
         {
-            using (SqlConnection conn = new SqlConnection(_connectionString))
+            using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                SqlCommand cmd = new SqlCommand(nombreProcedimiento, conn)
+                SqlCommand command = new SqlCommand(nombreProcedimiento, connection)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
 
-                // Se Agregan los parametros al comando
-                for (int i = 0; i < parametros.Length; i += 2)
+                // Add parameters to the command
+                foreach (var param in parametros)
                 {
-                    string paramName = parametros[i].ToString();
-                    object paramValue = parametros[i + 1];
-                    cmd.Parameters.AddWithValue(paramName, paramValue ?? DBNull.Value);
+                    command.Parameters.AddWithValue(param.ToString(), parametros[Array.IndexOf(parametros, param) + 1]);
                 }
 
-                conn.Open();
-                cmd.ExecuteNonQuery();
+                connection.Open();
+                command.ExecuteNonQuery();
             }
         }
     }
 }
+

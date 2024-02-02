@@ -16,3 +16,10 @@ html {
 body {
   margin-bottom: 60px;
 }
+.title-p {
+    font-family: 'Kanit', sans-serif;
+    color: dimgray;
+}
+.table-p th,td{
+    padding:15px;
+}

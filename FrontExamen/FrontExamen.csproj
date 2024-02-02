@@ -6,4 +6,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\apiexamen\apiexamen.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="apiexamen">
+      <HintPath>..\apiexamen\bin\Debug\apiexamen.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

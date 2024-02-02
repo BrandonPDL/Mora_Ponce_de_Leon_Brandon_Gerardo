@@ -1,7 +1,7 @@
 ﻿using Frontexamen.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using clsExamen;
+using apiexamen;
 
 public class ExamenController : Controller
 {

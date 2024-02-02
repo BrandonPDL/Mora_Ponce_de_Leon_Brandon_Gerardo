@@ -17,22 +17,5 @@
 
 <!-- Formulario para agregar examen -->
 
-<form asp-action="Agregar">
-    <!-- ...otros campos del formulario... -->
-    <input type="hidden" asp-for="UsarWebService" value="@Model.UsarWebService" />
-    <button type="submit">Guardar</button>
-</form>
-
-
-<form asp-action="Agregar">
-    <input asp-for="Id" type="number" />
-    <input asp-for="Nombre" />
-    <input asp-for="Descripcion" />
-    <select asp-for="useWebService">
-        <option value="true">Web Service</option>
-        <option value="false">Procedimientos almacenados</option>
-    </select>
-    <button type="submit">Agregar Examen</button>
-</form>
 
 <!-- Coloca aquí tu DataGrid o tabla HTML -->

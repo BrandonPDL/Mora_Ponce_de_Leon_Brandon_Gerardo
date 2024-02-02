@@ -4,18 +4,26 @@ using System.Diagnostics;
 
 namespace Frontexamen.Controllers
 {
-    public class HomenController : Controller
+    public class HomeController : Controller
     {
-        private readonly ILogger<HomenController> _logger;
+        private readonly ILogger<HomeController> _logger;
 
-        public HomenController(ILogger<HomenController> logger)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
-
+        private List<ExamenModel> ObtenerExamenes()
+        {
+          return new List<ExamenModel>
+            {
+                new ExamenModel { Id = 1, Nombre = "Examen 1", Descripcion = "Descripción del Examen 1" },
+                new ExamenModel { Id = 2, Nombre = "Examen 2", Descripcion = "Descripción del Examen 2" },
+            };
+        }
         public IActionResult Index()
         {
-            return View();
+            List<ExamenModel> examenes = ObtenerExamenes(); 
+            return View(examenes);
         }
 
         public IActionResult Privacy()
