@@ -22,7 +22,7 @@ namespace apiexamen
         {
             using (HttpClient client = new HttpClient())
             {
-                string url = $"{baseUrl}/api/Examen/{id}";
+                string url = $"https://localhost:7170/api/Examen/{id}";
                 HttpResponseMessage response = await client.GetAsync(url);
 
                 if (response.IsSuccessStatusCode)
