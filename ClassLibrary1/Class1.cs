@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.Security.Permissions;
 namespace ClassLibrary1
 {
     public class Examen
@@ -31,21 +32,20 @@ namespace ClassLibrary1
 
         public static async Task<string> PostToApiAsync(string url, Examen examen)
         {
-            using (HttpClient client = new HttpClient())
-            {
-                var json = JsonConvert.SerializeObject(examen);
-                var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var client = new HttpClient();
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7170/api/Examen");
+            var content = new StringContent("{\r\n  \"idExamen\": 3,\r\n  \"nombre\": \"string\",\r\n  \"descripcion\": \"string\"\r\n}", Encoding.UTF8, "application/json");
+            request.Content = content;
 
-                HttpResponseMessage response = await client.PostAsync(url, data);
-                if (response.IsSuccessStatusCode)
-                {
-                    return await response.Content.ReadAsStringAsync();
-                }
-                else
-                {
-                    throw new HttpRequestException($"Error: {response.StatusCode}");
-                }
-            }
+            var response = await client.SendAsync(request);
+
+            // Asegúrate de que la solicitud fue exitosa
+            response.EnsureSuccessStatusCode();
+
+            // Leer el contenido de la respuesta como un string
+            var responseString = await response.Content.ReadAsStringAsync();
+            return responseString;
+
         }
     }
 }
