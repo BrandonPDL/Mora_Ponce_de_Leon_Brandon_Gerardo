@@ -1,5 +1,5 @@
 ﻿using System;
-using ClassLibrary1; // Asegúrate de incluir este using
+using apiexamen; // Asegúrate de incluir este using
 
 namespace MiAplicacionDeConsola
 {
@@ -10,16 +10,33 @@ namespace MiAplicacionDeConsola
             string url = "https://localhost:7170/api/Examen";
             Examen examen = new Examen
             {
-                IdExamen = 10,
+                IdExamen = 11,
                 Nombre = "Hi",
                 Descripcion = "string"
             };
 
             try
             {
-                string resultado = await ApiHelper.PostToApiAsync(url, examen);
+                clsExamen dll = new clsExamen(true);
+                string resultado = await dll.GetExamenes();
                 Console.WriteLine("Respuesta de la API: ");
                 Console.WriteLine(resultado);
+                resultado = await dll.CreateExamen(examen);
+                Console.WriteLine("Respuesta de la API: ");
+                Console.WriteLine(resultado);
+                resultado = await dll.GetExamen(examen.IdExamen);
+                Console.WriteLine("Respuesta de la API: ");
+                Console.WriteLine(resultado);
+                resultado = await dll.UpdateExamen(examen);
+                Console.WriteLine("Respuesta de la API: ");
+                Console.WriteLine(resultado);
+                resultado = await dll.DeleteExamen(examen.IdExamen);
+                Console.WriteLine("Respuesta de la API: ");
+                Console.WriteLine(resultado);
+                resultado = await dll.GetExamenes();
+                Console.WriteLine("Respuesta de la API: ");
+                Console.WriteLine(resultado);
+
             }
             catch (Exception ex)
             {

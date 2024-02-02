@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace apiexamen
 {
-    public class DatabaseConnectorSQL : iDatabaseConnector
+    public class DatabaseConnectorSQL 
     {
         private string _connectionString;
 
@@ -13,25 +16,43 @@ namespace apiexamen
             _connectionString = connectionString;
         }
 
-        public void EjecutarProcedimientoAlmacenado(string nombreProcedimiento, params object[] parametros)
+        public static async Task<string> EjecutarProcedimientoAlmacenado(Examen examen)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            string connectionString = "Data Source=localhost; Initial Catalog=BdiExamen; User ID=sa; Password=1234;";
+
+            try
             {
-                SqlCommand command = new SqlCommand(nombreProcedimiento, connection)
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    CommandType = CommandType.StoredProcedure
-                };
+                    connection.Open();
 
-                // Add parameters to the command
-                foreach (var param in parametros)
-                {
-                    command.Parameters.AddWithValue(param.ToString(), parametros[Array.IndexOf(parametros, param) + 1]);
+                    using (SqlCommand command = new SqlCommand("spAgregar", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@Id", examen.IdExamen);
+                        command.Parameters.AddWithValue("@Nombre", examen.Nombre);
+                        command.Parameters.AddWithValue("@Descripcion", examen.Descripcion);
+
+                        command.Parameters.Add("@CodigoRetorno", SqlDbType.Int).Direction = ParameterDirection.Output;
+                        command.Parameters.Add("@DescripcionRetorno", SqlDbType.NVarChar, 255).Direction = ParameterDirection.Output;
+
+                        command.ExecuteNonQuery();
+
+                        int codigoRetorno = Convert.ToInt32(command.Parameters["@CodigoRetorno"].Value);
+                        string descripcionRetorno = command.Parameters["@DescripcionRetorno"].Value.ToString();
+
+                        return($"Resultado del procedimiento almacenado: Código {codigoRetorno}, Descripción: {descripcionRetorno}");
+                    }
                 }
-
-                connection.Open();
-                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                return($"Error: {ex.Message}");
             }
         }
+
+
     }
 }
 
