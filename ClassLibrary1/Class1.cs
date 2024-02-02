@@ -34,7 +34,9 @@ namespace ClassLibrary1
         {
             var client = new HttpClient();
             var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7170/api/Examen");
-            var content = new StringContent("{\r\n  \"idExamen\": 3,\r\n  \"nombre\": \"string\",\r\n  \"descripcion\": \"string\"\r\n}", Encoding.UTF8, "application/json");
+            var jsonContent = $"{{\r\n  \"idExamen\": {examen.IdExamen},\r\n  \"nombre\": \"{examen.Nombre}\",\r\n  \"descripcion\": \"{examen.Descripcion}\"\r\n}}";
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
             request.Content = content;
 
             var response = await client.SendAsync(request);
@@ -42,10 +44,9 @@ namespace ClassLibrary1
             // Asegúrate de que la solicitud fue exitosa
             response.EnsureSuccessStatusCode();
 
-            // Leer el contenido de la respuesta como un string
+            // Leer y retornar el contenido de la respuesta como un string
             var responseString = await response.Content.ReadAsStringAsync();
             return responseString;
-
         }
     }
 }

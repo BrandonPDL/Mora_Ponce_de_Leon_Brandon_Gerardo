@@ -10,8 +10,8 @@ namespace MiAplicacionDeConsola
             string url = "https://localhost:7170/api/Examen";
             Examen examen = new Examen
             {
-                IdExamen = 2,
-                Nombre = "string",
+                IdExamen = 10,
+                Nombre = "Hi",
                 Descripcion = "string"
             };
 
