@@ -7,14 +7,16 @@ namespace apiexamen
     {
         private iDatabaseConnector _databaseConnector;
 
-        public clsExamen(bool useWebService, string connectionStringOrBaseUrl)
+        public clsExamen(bool useWebService)
         {
             if (useWebService)
             {
+                string connectionStringOrBaseUrl = "";
                 _databaseConnector = new DatabaseConnectorWebService(connectionStringOrBaseUrl);
             }
             else
             {
+                string connectionStringOrBaseUrl ="";
                 _databaseConnector = new DatabaseConnectorSQL(connectionStringOrBaseUrl);
             }
         }

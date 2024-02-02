@@ -1,9 +1,33 @@
-﻿// See https://aka.ms/new-console-template for more information
-using apiexamen;
+﻿using System;
+using ClassLibrary1; // Asegúrate de incluir este using
 
-Console.WriteLine("Hello, World!");
+namespace MiAplicacionDeConsola
+{
+    class Program
+    {
+        static async Task Main(string[] args)
+        {
+            string url = "https://localhost:7170/api/Examen";
+            Examen examen = new Examen
+            {
+                IdExamen = 2,
+                Nombre = "string",
+                Descripcion = "string"
+            };
 
+            try
+            {
+                string resultado = await ApiHelper.PostToApiAsync(url, examen);
+                Console.WriteLine("Respuesta de la API: ");
+                Console.WriteLine(resultado);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Ocurrió un error: " + ex.Message);
+            }
 
-clsExamen examen = new clsExamen(true, "https://localhost:7170");
-
-examen.AgregarExamen(8, "hola", "hola2");
+            Console.WriteLine("Presiona cualquier tecla para salir.");
+            Console.ReadKey();
+        }
+    }
+}
