@@ -1,0 +1,21 @@
+﻿@model ExamenModel
+@{
+    ViewData["Title"] = "Gestión de Exámenes";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="alert alert-success">@ViewBag.Message</div>
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+}
+
+<!-- Formulario para agregar examen -->
+
+
+<!-- Coloca aquí tu DataGrid o tabla HTML -->
