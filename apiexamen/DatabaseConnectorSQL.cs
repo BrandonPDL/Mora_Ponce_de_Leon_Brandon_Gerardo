@@ -16,15 +16,15 @@ namespace apiexamen
             _connectionString = connectionString;
         }
 
-        public static async Task<string> EjecutarProcedimientoAlmacenado(Examen examen)
+        public static async Task<ExamenCreate> EjecutarProcedimientoAlmacenado(Examen examen)
         {
-            string connectionString = "Data Source=localhost; Initial Catalog=BdiExamen; User ID=sa; Password=1234;";
+            string connectionStrin = "Server=localhost; Database=BdiExamen; User Id=sa; Password=1234;";
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(connectionStrin))
                 {
-                    connection.Open();
+                    await connection.OpenAsync();
 
                     using (SqlCommand command = new SqlCommand("spAgregar", connection))
                     {
@@ -34,21 +34,35 @@ namespace apiexamen
                         command.Parameters.AddWithValue("@Nombre", examen.Nombre);
                         command.Parameters.AddWithValue("@Descripcion", examen.Descripcion);
 
-                        command.Parameters.Add("@CodigoRetorno", SqlDbType.Int).Direction = ParameterDirection.Output;
-                        command.Parameters.Add("@DescripcionRetorno", SqlDbType.NVarChar, 255).Direction = ParameterDirection.Output;
+                        using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                        {
+                            if (reader.Read())
+                            {
+                                ExamenCreate response = new ExamenCreate
+                                {
+                                    Respuesta = true,
+                                    Descripcion = reader.GetString(reader.GetOrdinal("DescripcionRetorno"))
+                                };
 
-                        command.ExecuteNonQuery();
-
-                        int codigoRetorno = Convert.ToInt32(command.Parameters["@CodigoRetorno"].Value);
-                        string descripcionRetorno = command.Parameters["@DescripcionRetorno"].Value.ToString();
-
-                        return($"Resultado del procedimiento almacenado: Código {codigoRetorno}, Descripción: {descripcionRetorno}");
+                                return response;
+                            }
+                            else
+                            {
+                                // Handle the case when no result set is returned
+                                throw new InvalidOperationException("No data returned from stored procedure.");
+                            }
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
-                return($"Error: {ex.Message}");
+                // Log the exception if necessary
+                return new ExamenCreate
+                {
+                    Respuesta = false,
+                    Descripcion = ex.Message
+                };
             }
         }
 

@@ -1,7 +1,8 @@
 ﻿
 using System;
 using System.Threading.Tasks;
-
+using System.Security.Permissions;
+using Newtonsoft.Json;
 namespace apiexamen
 {
     public class clsExamen
@@ -39,7 +40,7 @@ namespace apiexamen
             }
         }
 
-        public async Task<string> GetExamen(int id)
+        public async Task <ApiResponse<ExamenConsultId>> GetExamen(int id)
         {
             if (usarWebApi)
             {
@@ -48,11 +49,11 @@ namespace apiexamen
             }
             else
             {
-                return "";
+                return new ApiResponse<ExamenConsultId>();
             }
         }
 
-        public async Task<string> CreateExamen(Examen examen)
+        public async Task<ExamenCreate> CreateExamen(Examen examen)
         {
             if (usarWebApi)
             {
@@ -61,7 +62,7 @@ namespace apiexamen
             }
             else
             {
-                return "";
+                return await DatabaseConnectorSQL.EjecutarProcedimientoAlmacenado(examen);
             }
         }
         public async Task<string> UpdateExamen(Examen examen)
@@ -90,6 +91,19 @@ namespace apiexamen
             }
         }
 
+        public Examen Imprimir(Examen n)
+        {
+
+
+            // Serializa el objeto weatherForecast a una cadena JSON
+            string jsonString = JsonConvert.SerializeObject(n);
+
+            Console.WriteLine(jsonString);
+
+            var deserializedForecast = JsonConvert.DeserializeObject<Examen>(jsonString);
+
+            return deserializedForecast;
+        }
     }
 }
 

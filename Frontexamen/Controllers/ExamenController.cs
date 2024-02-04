@@ -1,7 +1,6 @@
 ﻿using Frontexamen.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
-
 using apiexamen;
 using Newtonsoft.Json; 
 public class RespuestaExamen
@@ -20,34 +19,30 @@ public class ExamenController : Controller
     }
 
     [HttpPost]
-    public async Task<ActionResult> Agregar(Examen examen)
+    public async Task<ExamenCreate> Agregar(Examen examen)
     {
         if (ModelState.IsValid)
         {
             clsExamen dll = new clsExamen(true);
-            string jsonRespuesta = await dll.CreateExamen( examen);
-            var resultado = JsonConvert.DeserializeObject<RespuestaExamen>(jsonRespuesta);
-
-            if (!resultado.Respuesta)
-            {
-                return Json(new { success = false, message = resultado.Descripcion });
-            }
-
-            return Json(new { success = true, message = "Examen agregado correctamente" });
+            ExamenCreate resultadoJson = await dll.CreateExamen(examen);
+            return resultadoJson;
         }
         else
         {
-            return Json(new { success = false, message = "Datos del examen no son válidos." });
+            ExamenCreate ex = new ExamenCreate();
+            ex.Descripcion = "Datos Invalidos,Favor de verificar la informacion.";
+            ex.Respuesta = false;
+            return ex;        
         }
     }
 
-    public async Task<ActionResult> Buscar(int id)
+    public async Task<ApiResponse<ExamenConsultId>> Buscar(int id)
     {
 
         clsExamen dll = new clsExamen(true);
-        string jsonRespuesta = await dll.GetExamen(id);
-        var examen = JsonConvert.DeserializeObject<Examen>(jsonRespuesta);
-        return Json(new { respuesta = examen });
+        ApiResponse<ExamenConsultId> jsonRespuesta = await dll.GetExamen(id);
+        
+        return jsonRespuesta;
 
     }
 
