@@ -3,6 +3,7 @@ using System;
 using System.Threading.Tasks;
 using System.Security.Permissions;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 namespace apiexamen
 {
     public class clsExamen
@@ -14,9 +15,8 @@ namespace apiexamen
         {
             if (useWebService)
             {
-                string connectionStringOrBaseUrl = "";
+                new DatabaseConnectorWebService();
                 usarWebApi = true;
-              //  _databaseConnector = new DatabaseConnectorWebService(connectionStringOrBaseUrl);
             }
             else
             {
@@ -27,16 +27,15 @@ namespace apiexamen
         }
 
 
-        public async Task<string> GetExamenes()
+        public async Task<List<Examen>> GetExamenes()
         {
             if (usarWebApi)
             {
-                string apiUrl = "https://localhost:7170/api/Examen";
-                return  await DatabaseConnectorWebService.GetFromApiAsync(apiUrl);
+                return  await DatabaseConnectorWebService.GetFromApiAsync();
             }
             else
             {
-                return "";
+                return new List<Examen>();
             }
         }
 
@@ -62,32 +61,32 @@ namespace apiexamen
             }
             else
             {
-                return await DatabaseConnectorSQL.EjecutarProcedimientoAlmacenado(examen);
+                return await DatabaseConnectorSQL.EjecutarProcedimientoAlmacenado("spAgregar", examen);
             }
         }
-        public async Task<string> UpdateExamen(Examen examen)
+        public async Task<ExamenCreate> UpdateExamen(Examen examen)
         {
             if (usarWebApi)
             {
                 string apiUrl = "https://localhost:7170/api/Examen";
-                return await DatabaseConnectorWebService.PutToApiAsync(apiUrl, examen);
+                return await DatabaseConnectorWebService.PutToApiAsync(examen);
             }
             else
             {
-                return "";
+                return await DatabaseConnectorSQL.EjecutarProcedimientoAlmacenado("spActualizar", examen);
             }
         }
 
-        public async Task<string> DeleteExamen(int id)
+        public async Task<ExamenCreate> DeleteExamen(Examen examen)
         {
             if (usarWebApi)
             {
                 string apiUrl = "https://localhost:7170/api/Examen";
-                return await DatabaseConnectorWebService.DeleteFromApiAsync(apiUrl, id);
+                return await DatabaseConnectorWebService.DeleteFromApiAsync(examen);
             }
             else
             {
-                return "";
+                return await DatabaseConnectorSQL.EjecutarProcedimientoAlmacenado("spEliminar", examen);
             }
         }
 

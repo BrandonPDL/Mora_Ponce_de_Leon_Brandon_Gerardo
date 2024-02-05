@@ -14,9 +14,9 @@ namespace ConsoleApp
 
             clsExamen miClase = new clsExamen(false);
 
-            var resultado = await miClase.CreateExamen(miObjeto);  // Await the result here
+            var resultado = await miClase.DeleteExamen(miObjeto);  // Await the result here
 
-            Console.WriteLine(resultado);  // Now 'resultado' should be of type 'ExamenCreate'
+            Console.WriteLine(resultado.Respuesta);  // Now 'resultado' should be of type 'ExamenCreate'
         }
     }
 }

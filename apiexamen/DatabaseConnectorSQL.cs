@@ -16,7 +16,7 @@ namespace apiexamen
             _connectionString = connectionString;
         }
 
-        public static async Task<ExamenCreate> EjecutarProcedimientoAlmacenado(Examen examen)
+        public static async Task<ExamenCreate> EjecutarProcedimientoAlmacenado(string comand, Examen examen)
         {
             string connectionStrin = "Server=localhost; Database=BdiExamen; User Id=sa; Password=1234;";
 
@@ -26,14 +26,16 @@ namespace apiexamen
                 {
                     await connection.OpenAsync();
 
-                    using (SqlCommand command = new SqlCommand("spAgregar", connection))
+                    using (SqlCommand command = new SqlCommand(comand, connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
 
                         command.Parameters.AddWithValue("@Id", examen.IdExamen);
-                        command.Parameters.AddWithValue("@Nombre", examen.Nombre);
-                        command.Parameters.AddWithValue("@Descripcion", examen.Descripcion);
-
+                        if (comand != "spEliminar")
+                        {
+                            command.Parameters.AddWithValue("@Nombre", examen.Nombre);
+                            command.Parameters.AddWithValue("@Descripcion", examen.Descripcion);
+                        }
                         using (SqlDataReader reader = await command.ExecuteReaderAsync())
                         {
                             if (reader.Read())
